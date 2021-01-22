@@ -1,7 +1,5 @@
 package config;
 
-import java.time.format.DateTimeFormatter;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,12 +21,14 @@ public class AppCtx {
 	
 	@Bean
 	public MemberRegisterService memberRegSvc() {
-		return new MemberRegisterService();
+		return new MemberRegisterService(memberDao());
 	}
 	
 	@Bean
 	public ChangePasswordService changePwdSvc() {
-		return new ChangePasswordService();
+		ChangePasswordService pwdSvc = new ChangePasswordService();
+		pwdSvc.setMemberDao(memberDao());
+		return pwdSvc;
 	}
 	
 	@Bean
@@ -38,12 +38,15 @@ public class AppCtx {
 	
 	@Bean
 	public MemberListPrinter listPrinter() {
-		return new MemberListPrinter();
+		return new MemberListPrinter(memberDao(), memberPrinter());
 	}
 	
 	@Bean
 	public MemberInfoPrinter infoPrinter() {
-		return new MemberInfoPrinter();
+		MemberInfoPrinter infoPrinter = new MemberInfoPrinter();
+		infoPrinter.setMemberDao(memberDao());
+		infoPrinter.setPrinter(memberPrinter());
+		return infoPrinter;
 	}
 	
 	@Bean
