@@ -18,7 +18,12 @@ public class MainAspectWithCache {
 		 * 그 대상이 ExeTimeAspect이므로 ExeTimeAspect의 measure()메서드가 실행된다.
 		 */
 		Calculator cal = ctx.getBean("calculator", Calculator.class);
-		cal.factorial(7);
+		/*
+		 * calculator 빈은 실제로는 CacheAspect 프록시 객체이다.
+		 * 근데 CacheAspect 프록시 객체의 대상 객체는 ExeTimeAspect의 프록시 객체이다.
+		 * 그리고 ExeTimeAspect프록시의 대상 객체가 실제 대상 객체이다.
+		 */
+ 		cal.factorial(7); //CacheAspect의 코드가 먼저 실행
 		cal.factorial(7);
 		cal.factorial(5);
 		cal.factorial(5);
