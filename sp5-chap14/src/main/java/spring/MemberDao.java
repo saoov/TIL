@@ -28,6 +28,19 @@ public class MemberDao {
 	
 	private JdbcTemplate jdbcTemplate;
 	
+	private RowMapper<Member> memRowMapper =  new RowMapper<Member>() {
+		@Override
+		public Member mapRow(ResultSet rs, int rowmNum) throws SQLException{
+			Member member = new Member(
+					rs.getString("EMAIL"),
+					rs.getString("PASSWORD"),
+					rs.getString("NAME"),
+					rs.getTimestamp("REGDATE").toLocalDateTime());
+			member.setId(rs.getLong("ID"));
+			return member;
+		}
+	};
+	
 	/*
 	 * DataSource를 주입받도록 생성자를 이용해 구현
 	 */
@@ -38,40 +51,13 @@ public class MemberDao {
 	public Member selectByEmail(String email) {
 		List<Member> results = jdbcTemplate.query(
 				"select * from MEMBER where EMAIL = ?",
-				new RowMapper<Member>() { //임의 클래스대신 람다를 이용할 수도 있음
-					/*
-					 * RowMapper는 ResultSet에서 데이터를 읽어와 Member객체로 변환해주는 기능을 제공하므로
-					 * RowMapper의 타입 파라미터로 Member를 사용 -> mapRow에서 파라미터로 전달받은 ResultSet에서
-					 * 데이터를 읽어와 Member 객체를 생성해 리턴하도록 구현
-					 */
-					@Override
-					public Member mapRow(ResultSet rs, int rowNum) throws SQLException{
-						Member member = new Member(
-								rs.getString("EMAIL"),
-								rs.getString("PASSWORD"),
-								rs.getString("NAME"),
-								rs.getTimestamp("REGDATE").toLocalDateTime());
-						member.setId(rs.getLong("ID"));
-						return member;
-					}
-				},
+				memRowMapper,
 				email);
 		return results.isEmpty() ? null : results.get(0);
 	}
 	
 	public List<Member> selectAll(){
-		List<Member> results = jdbcTemplate.query("select * from MEMBER", new RowMapper<Member>() {
-			@Override
-			public Member mapRow(ResultSet rs, int rowmNum) throws SQLException{
-				Member member = new Member(
-						rs.getString("EMAIL"),
-						rs.getString("PASSWORD"),
-						rs.getString("NAME"),
-						rs.getTimestamp("REGDATE").toLocalDateTime());
-				member.setId(rs.getLong("ID"));
-				return member;
-			}
-		});
+		List<Member> results = jdbcTemplate.query("select * from MEMBER", memRowMapper);
 		return results;
 	}
 	/*
@@ -133,20 +119,16 @@ public class MemberDao {
 	public List<Member> selectByRegdate(LocalDateTime from, LocalDateTime to){
 		List<Member> results = jdbcTemplate.query(
 				"select * from MEMBER where REGDATE between ? and ? order by REGDATE desc",
-				new RowMapper<Member>() {
-					@Override
-					public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
-						Member member = new Member(
-								rs.getString("EMAIL"),
-								rs.getString("PASSWORD"),
-								rs.getString("NAME"),
-								rs.getTimestamp("REGDATE").toLocalDateTime()
-								);
-						member.setId(rs.getLong("ID"));
-						return member;
-					}
-				},from,to);
+				memRowMapper,from,to);
 		return results;
+	}
+	
+	public Member selectById(long memId) {
+		List<Member> results = jdbcTemplate.query(
+				"select * from MEMBER where ID = ?",
+				memRowMapper, memId
+				);
+		return results.isEmpty() ? null : results.get(0);
 	}
 
 }
