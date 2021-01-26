@@ -54,7 +54,7 @@ public class MvcConfig implements WebMvcConfigurer{
 
 	/*
 	 * AuthCheckInterceptor 객체를 인터셉터로 설정
-	 * addPathPatterns()는 인터셉터를 적용할 경로 패턴을 Ant경로 패턴을 이용해 지정한다
+	 * addPathPatterns()는 인터셉터를 적용할 경로패턴을 Ant경로 패턴을 이용해 지정한다
 	 */
 	
 	@Override

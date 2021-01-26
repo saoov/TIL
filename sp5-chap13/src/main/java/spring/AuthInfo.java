@@ -1,5 +1,8 @@
 package spring;
 
+/*
+ * 로그인 성공 후 인증상태 정보를 세션에 보관할 때 사용할 객체
+ */
 public class AuthInfo {
 
 	private Long id;
