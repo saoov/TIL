@@ -1,0 +1,58 @@
+package spring;
+
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public class Member {
+
+	private Long id;
+	private String email;
+	@JsonIgnore
+	private String password; //JSON 응답결과에 표시가 되지 않는다.
+	private String name;
+	private LocalDateTime registerDateTime;
+
+	public Member(String email, String password, String name, LocalDateTime regDateTime) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.registerDateTime = regDateTime;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public LocalDateTime getRegisterDateTime() {
+		return registerDateTime;
+	}
+
+	public void changePassword(String oldPassword, String newPassword) {
+		if (!password.equals(oldPassword))
+			throw new WrongIdPasswordException();
+		this.password = newPassword;
+	}
+	
+	public boolean matchPassword(String password) {
+		return this.password.equals(password);
+	}
+
+}
