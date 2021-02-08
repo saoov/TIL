@@ -21,4 +21,6 @@ public interface BoardDAO {
 	
 	public List<BoardVO> listCriteria(Criteria cri) throws Exception;
 	
+	public int coutnPaging(Criteria cri) throws Exception;
+	
 }
