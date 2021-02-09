@@ -43,34 +43,38 @@ public class BoardController {
 		model.addAttribute("list",service.listAll());
 	}
 	
-	@GetMapping("/read")
-	public void read(@RequestParam("bno")int bno, Model model) throws Exception{
+	@GetMapping("/readPage")
+	public void read(@RequestParam("bno")int bno,@ModelAttribute("cri")Criteria cri, Model model) throws Exception{
 		model.addAttribute(service.read(bno));
 	}
 	
-	@PostMapping("/remove")
-	public String remove(@RequestParam("bno")int bno, RedirectAttributes rttr) throws Exception{
+	@PostMapping("/removePage")
+	public String remove(@RequestParam("bno")int bno,Criteria cri, RedirectAttributes rttr) throws Exception{
 		service.remove(bno);
+		rttr.addAttribute("page",cri.getPage());
+		rttr.addAttribute("perPageNum",cri.getPerPageNum());
 		rttr.addFlashAttribute("msg","success");
-		return "redirect:/board/listAll";
+		return "redirect:/board/listPage";
 	}
 	
-	@GetMapping("/modify")
-	public void modifyGet(int bno, Model model) throws Exception{
+	@GetMapping("/modifyPage")
+	public void modifyPagingGet(@RequestParam("bno")int bno, @ModelAttribute("cri")Criteria cri, Model model) throws Exception{
 		model.addAttribute(service.read(bno));
 	}
 	
-	@PostMapping("/modify")
-	public String modifyPOST(BoardVO board, RedirectAttributes rttr) throws Exception{
+	@PostMapping("/modifyPage")
+	public String modifyPOST(BoardVO board,Criteria cri, RedirectAttributes rttr) throws Exception{
 		service.modify(board);
+		rttr.addAttribute("page",cri.getPage());
+		rttr.addAttribute("perPageNum",cri.getPerPageNum());
 		rttr.addFlashAttribute("msg","success");
-		return "redirect:/board/listAll";
+		return "redirect:/board/listPage";
 	}
 	
-	@GetMapping("/listCri")
-	public void listAll(Criteria cri, Model model) throws Exception{
-		model.addAttribute("list", service.listCriteria(cri));
-	}
+//	@GetMapping("/listCri")
+//	public void listAll(Criteria cri, Model model) throws Exception{
+//		model.addAttribute("list", service.listCriteria(cri));
+//	}
 	
 	@GetMapping("/listPage")
 	public void listPage(@ModelAttribute("cri")Criteria cri, Model model) throws Exception{

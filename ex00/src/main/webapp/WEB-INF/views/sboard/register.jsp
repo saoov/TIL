@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-   <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-   
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,31 +28,28 @@
     <script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script>
-	var result = '${msg}'
-	if(result=='success'){
-		alert('처리가 완료되었습니다');
-	}
-</script>
 </head>
 <body>
-	<table class="table table-bordered">
-			<tr>
-				<th style="width: 10px">BNO</th>
-				<th>title</th>
-				<th>writer</th>
-				<th>regdate</th>
-				<th style="width: 40px">VIEWCNT</th>
-			</tr>
-		<c:forEach items="${list }" var="boardVO">
-			<tr>
-				<th style="width: 10px">${boardVO.bno }</th>
-				<th><a href="/board/readPage${pageMaker.makeQuery(pageMaker.cri.page)}&bno=${boardVO.bno }">${boardVO.title }</a></th>
-				<th>${boardVO.writer }</th>
-				<th><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${boardVO.regdate }"/></th>
-				<th><span class="badge bg-red">${boardVO.viewcnt }</span></th>
-			</tr>
-		</c:forEach>
-	</table>
+
+	<form role="form" method="post">
+		<div class="box-body">
+			<div class="form-group">
+				<label for="exampleInputTitle">Title</label>
+				<input type="text" name="title" class="form-control" placeholder="Enter title">
+			</div>
+			<div class="form-group">
+				<label for="exampleInputContent">Content</label>
+				<textarea class="form-control" name="content" rows="3" placeholder="Enter..." ></textarea>
+			</div>
+			<div class="form-group">
+				<label for="exampleInputWriter">Email</label>
+				<input type="text" name="writer" class="form-control" placeholder="Enter Writer">
+			</div>
+		</div>
+		
+		<div class="box-footer">
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+	</form>
 </body>
 </html>
