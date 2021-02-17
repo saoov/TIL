@@ -21,7 +21,9 @@ public class PageRequestDTO {
         this.page = 1;
         this.size = 10;
     }
-
+/*
+JPA를 이용하면 페이지 번호가 0부터 시작하는 점을 감안해서 1페이지의 경우 0이 되도록 page - 1을 함
+ */
     public Pageable getPageable(Sort sort){
         return PageRequest.of(page - 1, size, sort);
     }

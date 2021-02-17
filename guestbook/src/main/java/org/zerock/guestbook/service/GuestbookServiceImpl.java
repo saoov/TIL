@@ -30,7 +30,7 @@ public class GuestbookServiceImpl implements GuestbookService {
         log.info("DTO--------------------------");
         log.info(dto);
 
-        Guestbook entity = dtoToEntity(dto);
+        Guestbook entity = dtoToEntity(dto); //dto객체를 entity 객체로 변환 (GuestbookService의 default메서드)
 
         log.info(entity);
         repository.save(entity);
@@ -45,8 +45,8 @@ public class GuestbookServiceImpl implements GuestbookService {
         검색 조건 처리
          */
         BooleanBuilder booleanBuilder = getSearch(requestDTO);
-        Page<Guestbook> result = repository.findAll(booleanBuilder, pageable); //Querydsl사용
-        Function<Guestbook, GuestbookDTO> fn = (entity -> entityToDto(entity));
+        Page<Guestbook> result = repository.findAll(booleanBuilder, pageable); //Querydsl사용 ->JPA를 이용하는 repository는 페이지 처리 결과를 Page<Entity>로 반환
+        Function<Guestbook, GuestbookDTO> fn = (entity -> entityToDto(entity)); //entity -> dto
 
         return new PageResultDTO<>(result, fn);
     }
