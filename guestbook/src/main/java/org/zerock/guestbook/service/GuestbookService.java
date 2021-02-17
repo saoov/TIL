@@ -50,4 +50,6 @@ public interface GuestbookService {
      */
     void remove(Long gno);
     void modify(GuestbookDTO dto);
+
+
 }

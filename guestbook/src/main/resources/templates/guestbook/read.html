@@ -35,9 +35,9 @@
         </div>
 
         <!--수정후 이전 조회화면으로 돌아가기 위해 requestDTO.page를 같이 넘김-->
-        <a th:href="@{/guestbook/modify(gno = ${dto.gno}, page=${requestDTO.page})}"><button type="button" class="btn btn-primary">Modify</button></a>
+        <a th:href="@{/guestbook/modify(gno = ${dto.gno}, page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}"><button type="button" class="btn btn-primary">Modify</button></a>
         <!-- controller로부터 requestDTO.page를 받아왔기 때문에 이전 페이지로 돌아갈 수 있다.-->
-        <a th:href="@{/guestbook/list(page=${requestDTO.page})}"><button type="button" class="btn btn-info">List</button></a>
+        <a th:href="@{/guestbook/list(page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}"><button type="button" class="btn btn-info">List</button></a>
 
     </th:block>
 
