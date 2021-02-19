@@ -13,7 +13,7 @@ import java.util.List;
 public interface BoardRepository extends JpaRepository<Board, Long>, SearchBoardRepository {
 
     /*
-    한 개의 로우(Object) 내에 Object[]로 나옴
+    한 개의 로우(Object) 내에 Object[]로 나옴-> join의 결과과 object타입으로 나옴->object[]로 형변환 필요
     엔티티 클래스 내부에 연관관계가 있는 경우 on 조건을 작성하지 않아도 된다
      */
     @Query("select b, w from Board b left join b.writer w where b.bno =:bno")

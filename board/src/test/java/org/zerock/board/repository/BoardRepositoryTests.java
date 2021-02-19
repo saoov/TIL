@@ -43,12 +43,18 @@ public class BoardRepositoryTests {
 
         Board board = result.get();
 
+        /*
+        member의 writer를 가져오기 위해 쿼리에서 left outer join이 자동처리됨 ->지연 로딩시 자동처리 안됨
+        ->board.getWriter()는 member 테이블을 로딩해야하는데 DB와 연결이 끝나기 떄문에 Exception발생-> @Transactional처리
+        ->board.getWriter()처리시 다시 member테이블을 로딩
+         */
         System.out.println(board);
-        System.out.println(board.getWriter());
+        System.out.println(board.getWriter()); 
     }
 
     @Test
     public void testReadWithWriter(){
+        //join결과를 object타입으로 리턴, 한개의 로우(Object) 내에 Object[]로 나옴
         Object result = boardRepository.getBoardWithWriter(100L);
 
         Object[] arr = (Object[])result;
