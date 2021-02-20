@@ -18,9 +18,6 @@ public class ReviewRepositoryTests {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    @Autowired
-    private MemberRepository memberRepository;
-
     @Test
     public void insertMovieReviews() {
         //200개 리뷰 등록
@@ -58,21 +55,6 @@ public class ReviewRepositoryTests {
 
     }
 
-    @Commit
-    @Transactional
-    @Test
-    public void testDeleteMember(){
-        Long mid = 3L;
 
-        Member member = Member.builder().mid(mid).build();
-
-        //기존-> 회원을 먼저 삭제시킬 경우 FK를 가지기 떄문에 에러
-//        memberRepository.deleteById(mid);
-//        reviewRepository.deleteByMember(member);
-
-        //순서 주의
-        reviewRepository.deleteByMember(member);
-        memberRepository.deleteById(mid);
-    }
 
 }
